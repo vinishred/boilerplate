@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Marque;
+use App\Form\MarqueType;
 use App\Repository\MarqueRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,6 @@ class MarqueController extends AbstractController
     {
         // On peut utiliser notre repository
         $marques = $marqueRepository->findAll();
-
         return $this->render('marque/index.html.twig', [
             'title' => 'Marque',
             'marques' => $marques,
@@ -35,10 +35,21 @@ class MarqueController extends AbstractController
     }
 
     #[Route('/marque/create', name: 'marque_create', methods: ['GET', 'POST'])]
-    public function create(): Response
+    public function create(Request $request, MarqueRepository $marqueRepository): Response
     {
-        return $this->render('marque/index.html.twig', [
-            'controller_name' => 'MarqueController',
+        $marque = new Marque();
+
+        $form = $this->createForm(MarqueType::class, $marque);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $marqueRepository->save($marque, true);
+            return $this->redirectToRoute('marque_index');
+        }
+
+        return $this->render('marque/create.html.twig', [
+            'title' => 'creation',
+            'formView' => $form->createView(),
         ]);
     }
 

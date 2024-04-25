@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Marque;
+use App\Entity\Moto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Marque>
+ * @extends ServiceEntityRepository<Moto>
  *
- * @method Marque|null find($id, $lockMode = null, $lockVersion = null)
- * @method Marque|null findOneBy(array $criteria, array $orderBy = null)
- * @method Marque[]    findAll()
- * @method Marque[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Moto|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Moto|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Moto[]    findAll()
+ * @method Moto[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MarqueRepository extends ServiceEntityRepository
+class MotoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Marque::class);
+        parent::__construct($registry, Moto::class);
     }
 
-    public function save(Marque $entity, bool $flush = false): void
+    public function save(Moto $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class MarqueRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Marque $entity, bool $flush = false): void
+    public function remove(Moto $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class MarqueRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Marque[] Returns an array of Marque objects
+//     * @return Moto[] Returns an array of Moto objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class MarqueRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Marque
+//    public function findOneBySomeField($value): ?Moto
 //    {
 //        return $this->createQueryBuilder('m')
 //            ->andWhere('m.exampleField = :val')
