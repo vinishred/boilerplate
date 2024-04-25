@@ -54,18 +54,26 @@ class MarqueController extends AbstractController
     }
 
     #[Route('/marque/{id}/update', name: 'marque_update', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    public function update(): Response
+    public function update(Marque $marque, Request $request, MarqueRepository $marqueRepository): Response
     {
-        return $this->render('marque/index.html.twig', [
-            'controller_name' => 'MarqueController',
+        $form = $this->createForm(MarqueType::class, $marque);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $marqueRepository->save($marque, true);
+            return $this->redirectToRoute('marque_index');
+        }
+
+        return $this->render('marque/update.html.twig', [
+            'title' => 'modification',
+            'formView' => $form->createView(),
         ]);
     }
 
     #[Route('/marque/{id}/delete', name: 'marque_delete', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function delete(): Response
+    public function delete(Marque $marque, MarqueRepository $marqueRepository): Response
     {
-        return $this->render('marque/index.html.twig', [
-            'controller_name' => 'MarqueController',
-        ]);
+        $marqueRepository->remove($marque, true);
+        return $this->redirectToRoute('marque_index');
     }
 }

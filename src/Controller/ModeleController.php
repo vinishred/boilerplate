@@ -22,35 +22,41 @@ class ModeleController extends AbstractController
     }
 
     #[Route('/{id}', name: 'modele_show', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function show(Modele $modele) : Response {
+    public function show(Modele $modele): Response
+    {
 
         return $this->render('modele/show.html.twig', [
+            'title' => 'détail',
             'modele' => $modele,
         ]);
     }
 
     #[Route('/create', name: 'modele_create', priority: 0, methods: ['GET', 'POST'])]
-    public function create(Request $request, ModeleRepository $repo) : Response {
+    public function create(Request $request, ModeleRepository $repo): Response
+    {
         $modele = new Modele();
         $form = $this->createForm(ModeleType::class, $modele);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $repo->save($modele, true);
-            $this->addFlash('success', 'Le modèle a bien été ajouté.');
             return $this->redirectToRoute('modele_index');
+            $this->addFlash('success', 'Le modèle a bien été ajouté.');
         }
         return $this->render('modele/create.html.twig', [
+            'title' => 'modèle',
             'formView' => $form->createView(),
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'modele_edit',methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function update() : Response {
+    #[Route('/{id}/edit', name: 'modele_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
+    public function update(): Response
+    {
         dd(__METHOD__);
     }
 
     #[Route('/{id}/delete', name: 'modele_delete', methods: ['GET'], requirements: ['id' => '\d+'])]
-    public function delete() : Response {
+    public function delete(): Response
+    {
         dd(__METHOD__);
     }
 }
